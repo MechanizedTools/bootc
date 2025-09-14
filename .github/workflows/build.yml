@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '4 4 * * *'
+
+env:
+  REGISTRY_USER: ${{ github.actor }}
+  REGISTRY_PASSWORD: ${{ github.token }}
+  IMAGE_REGISTRY: ghcr.io/odilhao
+
+jobs:
+  build:
+    permissions:
+      packages: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build container
+        run: podman build -t bootc:${{ github.sha }} .
+      - name: Push Image Github SHA
+        run: podman push bootc:${{ github.sha }}
+      - name: Tag Image as Latest
+        run: podman tag bootc:${{ github.sha }} bootc:latest
+      - name: Push Latest Image
+        run: podman push bootc:latest
+      #- name: Upload image
+      #  uses: actions/upload-artifact@v4.6.2
+      #  with:
+      #    name: bootc ISO
+      #    path: output/bootiso/install.iso
