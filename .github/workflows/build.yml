@@ -9,7 +9,7 @@ on:
 env:
   REGISTRY_USER: ${{ github.actor }}
   REGISTRY_PASSWORD: ${{ github.token }}
-  IMAGE_REGISTRY: ghcr.io/odilhao
+  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
 
 jobs:
   build:
@@ -17,15 +17,21 @@ jobs:
       packages: write
     runs-on: ubuntu-latest
     steps:
+      - name: Log in to ghcr.io
+        uses: redhat-actions/podman-login@v1
+        with:
+          username: ${{ env.REGISTRY_USER }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+          registry: ${{ env.IMAGE_REGISTRY }}
       - uses: actions/checkout@v5
       - name: Build container
-        run: podman build -t bootc:${{ github.sha }} .
+        run: podman build -t ${{ env.IMAGE_REGISTRY }}/bootc:${{ github.sha }} .
       - name: Push Image Github SHA
-        run: podman push bootc:${{ github.sha }}
+        run: podman push ${{ env.IMAGE_REGISTRY }}/bootc:${{ github.sha }}
       - name: Tag Image as Latest
-        run: podman tag bootc:${{ github.sha }} bootc:latest
+        run: podman tag ${{ env.IMAGE_REGISTRY }}/bootc:${{ github.sha }} ${{ env.IMAGE_REGISTRY }}/bootc:latest
       - name: Push Latest Image
-        run: podman push bootc:latest
+        run: podman push ${{ env.IMAGE_REGISTRY }}/bootc:latest
       #- name: Upload image
       #  uses: actions/upload-artifact@v4.6.2
       #  with:
