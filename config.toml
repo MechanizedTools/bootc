@@ -1,0 +1,12 @@
+[customizations.installer.kickstart]
+contents = """
+graphical
+
+# Localization
+keyboard --vckeymap=us-acentos --xlayouts='us','us (altgr-intl)'
+lang en_US.UTF-8
+timezone Europe/Paris --utc
+
+# Root password
+rootpw --lock
+"""
