@@ -9,6 +9,8 @@ RUN dnf install -y @cosmic-desktop \
                    distrobox \
                    fedora-release-cosmic-atomic \
                    fido2-tools \
+                   iwlwifi-dvm-firmware \
+                   iwlwifi-mvm-firmware \
                    mpv \
                    NetworkManager-bluetooth \
                    NetworkManager-wifi \

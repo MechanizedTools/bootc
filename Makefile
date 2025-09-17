@@ -12,7 +12,7 @@ push-image:
 .PHONY: qcow2-image
 qcow2-image:
 	[ -d output ] || mkdir output
-	podman run \
+	sudo podman run \
 		--rm \
 		-it \
 		--privileged \
@@ -30,7 +30,7 @@ qcow2-image:
 .PHONY: anaconda-image
 anaconda-image:
 	[ -d output ] || mkdir output
-	podman run \
+	sudo podman run \
 		--rm \
 		-it \
 		--privileged \
@@ -44,3 +44,26 @@ anaconda-image:
 		--rootfs $(ROOTFS) \
 		--use-librepo=True \
 		$(OCI_IMAGE)
+
+.PHONY: test-image
+test-image:
+	qemu-system-x86_64 \
+		-M accel=kvm \
+		-cpu host \
+		-smp 2 \
+		-m 4096 \
+		-bios /usr/share/OVMF/OVMF_CODE.fd \
+		-serial stdio \
+		-snapshot output/qcow2/disk.qcow2
+
+.PHONY: test-install
+test-install:
+	qemu-system-x86_64 \
+		-M accel=kvm \
+		-cpu host \
+		-smp 2 \
+		-m 4096 \
+		-bios /usr/share/OVMF/OVMF_CODE.fd \
+		-serial stdio \
+                -hdc output/test-disk.qcow2 \
+		-cdrom output/bootiso/install.iso
