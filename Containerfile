@@ -22,6 +22,8 @@ RUN dnf install -y @gnome-desktop \
                    NetworkManager-bluetooth \
                    NetworkManager-wifi \
                    pam-u2f pamu2fcfg \
+                   plymouth \
+                   plymouth-system-theme \
                    setools-console \
                    syncthing syncthing-tools \
                    xclip \
