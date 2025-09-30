@@ -35,7 +35,7 @@ RUN dnf install -y @gnome-desktop \
  && dnf clean all \
  && rm -rf /var/{log,cache,lib}/*
 
-RUN plymouth-set-default-theme -R spinner
+RUN plymouth-set-default-theme spinner
 
 RUN systemctl set-default graphical.target
 
