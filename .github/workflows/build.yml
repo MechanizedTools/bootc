@@ -32,8 +32,3 @@ jobs:
         run: podman tag ${{ env.IMAGE_REGISTRY }}/bootc:${{ github.sha }} ${{ env.IMAGE_REGISTRY }}/bootc:latest
       - name: Push Latest Image
         run: podman push ${{ env.IMAGE_REGISTRY }}/bootc:latest
-      #- name: Upload image
-      #  uses: actions/upload-artifact@v4.6.2
-      #  with:
-      #    name: bootc ISO
-      #    path: output/bootiso/install.iso
