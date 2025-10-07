@@ -8,5 +8,10 @@ lang en_US.UTF-8
 timezone Europe/Paris --utc
 
 # Root password
-rootpw --lock
+rootpw --iscrypted lock
 """
+
+[[customizations.user]]
+name = "arouene"
+password = "ch@ngem3"
+groups = ["wheel"]

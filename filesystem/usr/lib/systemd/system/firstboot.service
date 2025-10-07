@@ -1,0 +1,11 @@
+[Unit]
+Description=Create initial homed user
+After=systemd-userdbd.service systemd-homed.service
+#ConditionFirstBoot=yes
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/firstboot-create-users.sh
+
+[Install]
+WantedBy=multi-user.target
